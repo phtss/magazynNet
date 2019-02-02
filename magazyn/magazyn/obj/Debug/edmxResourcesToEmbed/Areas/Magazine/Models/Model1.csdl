@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Telephone" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="Adress" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Id_Magazine" Type="Int32" />
+    <NavigationProperty Name="Magazine" Relationship="Self.FK__Employees__Id_Ma__30F848ED" FromRole="Employees" ToRole="Magazine" />
+    <NavigationProperty Name="Items_has_OrderList" Relationship="Self.FK__Items_has__Id_Em__34C8D9D1" FromRole="Employees" ToRole="Items_has_OrderList" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Tax" Type="Int32" />
+    <NavigationProperty Name="Items_has_OrderList" Relationship="Self.FK__Items_has__Id_It__2D27B809" FromRole="Items" ToRole="Items_has_OrderList" />
+  </EntityType>
+  <EntityType Name="Items_has_OrderList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Id_Items" Type="Int32" />
+    <Property Name="Id_OrderList" Type="Int32" />
+    <Property Name="Id_Employees" Type="Int32" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK__Items_has__Id_Em__34C8D9D1" FromRole="Items_has_OrderList" ToRole="Employees" />
+    <NavigationProperty Name="Items" Relationship="Self.FK__Items_has__Id_It__2D27B809" FromRole="Items_has_OrderList" ToRole="Items" />
+    <NavigationProperty Name="OrderList" Relationship="Self.FK__Items_has__Id_Or__2E1BDC42" FromRole="Items_has_OrderList" ToRole="OrderList" />
+  </EntityType>
+  <EntityType Name="Magazine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Adress" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="NIP" Type="String" MaxLength="13" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK__Employees__Id_Ma__30F848ED" FromRole="Magazine" ToRole="Employees" />
+  </EntityType>
+  <EntityType Name="OrderList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Adress" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Accept" Type="Boolean" />
+    <Property Name="CheckSend" Type="Boolean" />
+    <NavigationProperty Name="Items_has_OrderList" Relationship="Self.FK__Items_has__Id_Or__2E1BDC42" FromRole="OrderList" ToRole="Items_has_OrderList" />
+  </EntityType>
+  <Association Name="FK__Employees__Id_Ma__30F848ED">
+    <End Role="Magazine" Type="Self.Magazine" Multiplicity="0..1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Magazine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="Id_Magazine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_Em__34C8D9D1">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_Employees" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_It__2D27B809">
+    <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_Items" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_Or__2E1BDC42">
+    <End Role="OrderList" Type="Self.OrderList" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderList">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_OrderList" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database1Entities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Self.Employees" />
+    <EntitySet Name="Items" EntityType="Self.Items" />
+    <EntitySet Name="Items_has_OrderList" EntityType="Self.Items_has_OrderList" />
+    <EntitySet Name="Magazine" EntityType="Self.Magazine" />
+    <EntitySet Name="OrderList" EntityType="Self.OrderList" />
+    <AssociationSet Name="FK__Employees__Id_Ma__30F848ED" Association="Self.FK__Employees__Id_Ma__30F848ED">
+      <End Role="Magazine" EntitySet="Magazine" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_Em__34C8D9D1" Association="Self.FK__Items_has__Id_Em__34C8D9D1">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_It__2D27B809" Association="Self.FK__Items_has__Id_It__2D27B809">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_Or__2E1BDC42" Association="Self.FK__Items_has__Id_Or__2E1BDC42">
+      <End Role="OrderList" EntitySet="OrderList" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

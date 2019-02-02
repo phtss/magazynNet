@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" />
+    <Property Name="Telephone" Type="nchar" MaxLength="15" />
+    <Property Name="City" Type="nchar" MaxLength="30" />
+    <Property Name="Adress" Type="nchar" MaxLength="50" />
+    <Property Name="Id_Magazine" Type="int" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" />
+    <Property Name="Amount" Type="int" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Tax" Type="int" />
+  </EntityType>
+  <EntityType Name="Items_has_OrderList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id_Items" Type="int" />
+    <Property Name="Id_OrderList" Type="int" />
+    <Property Name="Id_Employees" Type="int" />
+  </EntityType>
+  <EntityType Name="Magazine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="20" />
+    <Property Name="City" Type="nchar" MaxLength="20" />
+    <Property Name="Adress" Type="nchar" MaxLength="50" />
+    <Property Name="NIP" Type="nchar" MaxLength="13" />
+  </EntityType>
+  <EntityType Name="OrderList">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" />
+    <Property Name="Adress" Type="nchar" MaxLength="50" />
+    <Property Name="Accept" Type="bit" />
+    <Property Name="CheckSend" Type="bit" />
+  </EntityType>
+  <Association Name="FK__Employees__Id_Ma__30F848ED">
+    <End Role="Magazine" Type="Self.Magazine" Multiplicity="0..1" />
+    <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Magazine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="Id_Magazine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_Em__34C8D9D1">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_Employees" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_It__2D27B809">
+    <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_Items" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items_has__Id_Or__2E1BDC42">
+    <End Role="OrderList" Type="Self.OrderList" Multiplicity="0..1" />
+    <End Role="Items_has_OrderList" Type="Self.Items_has_OrderList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderList">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Items_has_OrderList">
+        <PropertyRef Name="Id_OrderList" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database1ModelStoreContainer">
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Items_has_OrderList" EntityType="Self.Items_has_OrderList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Magazine" EntityType="Self.Magazine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderList" EntityType="Self.OrderList" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Employees__Id_Ma__30F848ED" Association="Self.FK__Employees__Id_Ma__30F848ED">
+      <End Role="Magazine" EntitySet="Magazine" />
+      <End Role="Employees" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_Em__34C8D9D1" Association="Self.FK__Items_has__Id_Em__34C8D9D1">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_It__2D27B809" Association="Self.FK__Items_has__Id_It__2D27B809">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items_has__Id_Or__2E1BDC42" Association="Self.FK__Items_has__Id_Or__2E1BDC42">
+      <End Role="OrderList" EntitySet="OrderList" />
+      <End Role="Items_has_OrderList" EntitySet="Items_has_OrderList" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

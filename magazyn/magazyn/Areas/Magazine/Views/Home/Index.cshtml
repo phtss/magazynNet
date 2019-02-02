@@ -1,0 +1,51 @@
+﻿@model IEnumerable<magazyn.Areas.Magazine.Models.Magazine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Dodaj magazyn", "CreateNew")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NIP)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NIP)
+        </td>
+        <td>
+            @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Pracownicy", "ListById", "Employees", new { id = item.Id }, null) |
+            @Html.ActionLink("Skasuj", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>
