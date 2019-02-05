@@ -11,9 +11,7 @@ namespace magazyn.Areas.Magazine.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Magazine
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +19,7 @@ namespace magazyn.Areas.Magazine.Models
         {
             this.Employees = new HashSet<Employees>();
         }
-
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string City { get; set; }

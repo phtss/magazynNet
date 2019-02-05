@@ -94,5 +94,12 @@ namespace magazyn.Areas.Magazine.Controllers
 
             return this.RedirectToAction("Index");
         }
+
+        public ActionResult Details(int? id)
+        {
+            var entities = new Models.Database1Entities2();
+            List<Models.Items> items = (from x in entities.Items where x.Id_Orders == id select x).ToList();
+            return View(items);
+        }
     }
 }
